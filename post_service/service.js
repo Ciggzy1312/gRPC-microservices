@@ -39,7 +39,7 @@ exports.getPost = async (call, callback) => {
 
 exports.updatePost = async (call, callback) => {
     const { id } = call.request;
-    const { title, content, authorId } = call.request.post;
+    const { title, description, authorId } = call.request.post;
 
     try {
         const existingPost = await prisma.post.findUnique({
@@ -52,7 +52,7 @@ exports.updatePost = async (call, callback) => {
             return callback({ details: "Post not found" }, null);
         }
 
-        if (existingPost.author !== authorId) {
+        if (existingPost.authorId !== authorId) {
             return callback({ details: "Can only update your post" }, null);
         }
 
@@ -62,7 +62,7 @@ exports.updatePost = async (call, callback) => {
             },
             data: {
                 title,
-                content
+                description
             }
         });
 

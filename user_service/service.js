@@ -59,7 +59,7 @@ exports.createToken = async (call, callback) => {
         return callback(new Error("Invalid password"), null);
     }
 
-    jwt.sign(user, "secret", (err, token) => {
+    jwt.sign(existingUser, "secret", (err, token) => {
         if (err) {
             return callback(err, null);
         }
