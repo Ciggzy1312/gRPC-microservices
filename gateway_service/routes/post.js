@@ -4,6 +4,7 @@ const path = require("path");
 
 const protoLoader = require("@grpc/proto-loader");
 const grpc = require("@grpc/grpc-js");
+const { requiresAuth } = require("../middleware/auth");
 const PROTO_PATH = path.join(__dirname, "../protos/post.proto");
 
 const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
@@ -20,7 +21,7 @@ const client = new PostService("localhost:50051", grpc.credentials.createInsecur
 
 // Create a post
 
-router.post("/", (req, res) => {
+router.post("/", requiresAuth, (req, res) => {
     const { title, description, authorId } = req.body;
 
     if (!title || !description || !authorId) {
@@ -43,7 +44,7 @@ router.post("/", (req, res) => {
 
 // Get a post
 
-router.get("/:id", (req, res) => {
+router.get("/:id", requiresAuth, (req, res) => {
     const { id } = req.params;
 
     client.getPost({ id }, (err, response) => {
@@ -58,7 +59,7 @@ router.get("/:id", (req, res) => {
 
 // Update a post
 
-router.put("/:id", (req, res) => {
+router.put("/:id", requiresAuth, (req, res) => {
     const { id } = req.params;
     const { title, description, authorId } = req.body;
 

@@ -66,7 +66,7 @@ router.post("/login", (req, res) => {
 
 // Get a user
 
-router.get("/:id", (req, res) => {
+router.get("/:id", requiresAuth, (req, res) => {
     const { id } = req.params;
 
     client.getUser({ id }, (err, response) => {
