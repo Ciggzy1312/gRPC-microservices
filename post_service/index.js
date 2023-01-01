@@ -2,6 +2,7 @@ const PROTO_PATH = __dirname + '/protos/post.proto';
 const grpc = require('@grpc/grpc-js');
 const protoLoader = require('@grpc/proto-loader');
 const { createServer } = require('./grpc');
+const { createPost, getPost, updatePost } = require('./service');
 
 const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
     keepCase: true,
@@ -17,5 +18,7 @@ const server = new grpc.Server();
 createServer(server);
 
 server.addService(post_proto.PostService.service, {
-    // Add services here
+    createPost,
+    getPost,
+    updatePost
 });

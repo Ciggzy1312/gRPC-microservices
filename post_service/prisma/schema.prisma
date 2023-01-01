@@ -14,5 +14,5 @@ model Post {
   id          String @id @default(cuid())
   title       String
   description String
-  author      String
+  authorId      String
 }
